@@ -6,6 +6,56 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="./inbox/vue.css">
+  <style>
+    /* 与官网一致的设计语言配色 */
+    :root {
+      --theme-color: #9a7d3f; /* 经典金色 */
+    }
+    body {
+      background-color: #f5f3ee !important; /* 柔和纸张白背景 */
+      color: #2b2b2b !important;
+      font-family: 'Roboto', -apple-system, sans-serif !important;
+    }
+    .sidebar {
+      background-color: #e6e3dc !important; /* 稍深的侧边栏背景 */
+      border-right: 1px solid rgba(44, 58, 48, 0.08) !important;
+    }
+    .sidebar-nav a {
+      color: #2c3a30 !important; /* 墨绿色导航 */
+      font-weight: 500;
+    }
+    .sidebar-nav li.active > a {
+      color: #9a7d3f !important; /* 活跃菜单金色 */
+      font-weight: 600 !important;
+    }
+    .markdown-section {
+      background-color: #f5f3ee !important;
+      color: #2b2b2b !important;
+      max-width: 800px;
+    }
+    .markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4 {
+      color: #2c3a30 !important; /* 墨绿标题 */
+      font-weight: 600;
+    }
+    .markdown-section a {
+      color: #6f5826 !important; /* 加深金色链接 */
+      font-weight: 500;
+    }
+    .markdown-section a:hover {
+      text-decoration: underline;
+    }
+    /* 搜索栏美化 */
+    .search input {
+      background-color: #f0ede6 !important;
+      border: 1px solid rgba(44, 58, 48, 0.1) !important;
+      color: #2c3a30 !important;
+      border-radius: 4px !important;
+    }
+    .search input:focus {
+      border-color: #9a7d3f !important;
+      box-shadow: 0 0 4px rgba(154, 125, 63, 0.25) !important;
+    }
+  </style>
 </head>
 <body>
   <div id="app"></div>

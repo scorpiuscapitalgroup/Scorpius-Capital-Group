@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scorpius Capital Group</title>
 
+    <script>
+        // =========================================================================
+        // 【核心数据配置中心】 ——— 请在此处输入您需要展示的“代币发行总量”以及“总资金数据”
+        // =========================================================================
+
+        // 1. 代币发行总量 (发生拆分股票时，直接修改此处。例如：100 改成 1000 或任何数值)
+        //    公式：股权代币现价 (PRICE) = 总资金 (MKT CAP) / 代币发行总量
+        const SCOP_TOTAL_TOKENS = 100;
+
+        // 2. 总资金（总市值）历史数据与未来预测金额表 (格式: 年月日,总资金数值)
+        //    您可以随时在最下方增加下个月的时间和预测金额
+        const AUM_CSV_TEXT = `Date,Value
+20260612,100
+20260618,101
+20270101,200`;
+    </script>
+
     <meta name="description" content="Scorpius Capital Group LLC — disciplined capital, compounding conviction.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Scorpius Capital Group LLC">
@@ -38,6 +55,10 @@
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* 保留类名，统一指向 Roboto */
@@ -411,15 +432,34 @@
         /* ===== 页脚：墨绿顶线 + 双色 ===== */
         footer {
             position: absolute; bottom: 0; left: 0; width: 100%;
-            height: 40px;
+            min-height: 40px;
             display: flex; align-items: center;
             padding: 0 24px;
             border-top: 1px solid rgba(44,58,48,0.2);
             color: var(--deep-light);
             font-size: 10px; font-weight: 400;
-            letter-spacing: 0.14em; text-transform: uppercase;
+            letter-spacing: 0.14em;
         }
         footer .accent { color: var(--gold-text); }
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+        .footer-links a {
+            color: var(--deep-light);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+        .footer-links a:hover {
+            color: var(--gold-text);
+        }
+        .footer-links .divider {
+            color: rgba(44, 58, 48, 0.2);
+            user-select: none;
+        }
 
         /* ===== 响应式 ===== */
         @media (min-width: 768px) {
@@ -453,6 +493,19 @@
             .dropdown-menu-panel {
                 left: 0;
                 right: auto;
+            }
+            footer {
+                flex-direction: column;
+                height: auto;
+                padding: 12px;
+                gap: 8px;
+                text-align: center;
+            }
+            .footer-links {
+                margin-left: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 8px;
             }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -585,24 +638,49 @@
     <!-- 页脚 -->
     <footer class="z50">
         <span>&copy; 2026 <span class="accent">Scorpius Capital Group LLC</span>. All rights reserved.</span>
+        <div class="footer-links">
+            <a href="#privacy">隐私政策</a>
+            <span class="divider">|</span>
+            <a href="#terms">服务条款</a>
+            <span class="divider">|</span>
+            <a href="#risk">风险披露</a>
+            <span class="divider">|</span>
+            <a href="#contact">联系方式</a>
+        </div>
     </footer>
 </div>
 
 <script>
 // =========================================================================
-// 【核心数据配置中心】 ——— 请在此处输入您需要展示的“代币发行总量”以及“总资金数据”
+// 【安全防护组件】 ——— 禁用 F12、右键及复制
 // =========================================================================
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
 
-// 1. 代币发行总量 (发生拆分股票时，直接修改此处。例如：100 改成 1000 或任何数值)
-//    公式：股权代币现价 (PRICE) = 总资金 (MKT CAP) / 代币发行总量
-const SCOP_TOTAL_TOKENS = 100;
-
-// 2. 总资金（总市值）历史数据与未来预测金额表 (格式: 年月日,总资金数值)
-//    您可以随时在最下方增加下个月的时间和预测金额
-const AUM_CSV_TEXT = `Date,Value
-20260612,100
-20260618,101
-20270101,200`;
+document.addEventListener('keydown', e => {
+    // 禁用 F12
+    if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+    }
+    // 禁用 Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+        e.preventDefault();
+        return false;
+    }
+    // 禁用 Ctrl+U (查看源代码)
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+        e.preventDefault();
+        return false;
+    }
+    // 禁用 Ctrl+S (保存页面)
+    if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+        e.preventDefault();
+        return false;
+    }
+});
 
 function parseData() {
     const lines = AUM_CSV_TEXT.trim().split('\n').slice(1);
