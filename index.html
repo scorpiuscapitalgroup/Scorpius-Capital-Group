@@ -423,12 +423,13 @@
 
         /* ===== 响应式 ===== */
         @media (min-width: 768px) {
-            header { padding: 32px 48px; }
+            header { padding: 32px 35px 32px 48px; }
             .brand { font-size: 24px; }
             .docs-link { font-size: 14px; }
             footer { padding: 0 48px; font-size: 12px; }
         }
         @media (max-width: 768px) {
+            header { padding: 20px 15px 20px 16px; }
             .hero-center {
                 top: 76px;
                 left: 16px;
@@ -439,6 +440,7 @@
             }
         }
         @media (max-width: 580px) {
+            header { padding: 20px 15px 20px 12px; }
             .hero-center {
                 top: 64px;
                 left: 12px;
@@ -599,6 +601,7 @@ const SCOP_TOTAL_TOKENS = 100;
 //    您可以随时在最下方增加下个月的时间和预测金额
 const AUM_CSV_TEXT = `Date,Value
 20260612,100
+20260618,101
 20270101,200`;
 
 function parseData() {
@@ -1344,8 +1347,8 @@ function updateTicker() {
         }
     }
     
-    // 格式化总市值 (总资金 = 单价 * 代币总量)
-    const fundValue = currentPrice * SCOP_TOTAL_TOKENS;
+    // 格式化总市值 (总资金 = 预期市值，不随K线随机波动)
+    const fundValue = getTargetPriceAt(now);
     const fundIntegerLength = Math.floor(fundValue).toString().length;
     let fundDecimals;
     if (fundIntegerLength >= 9) fundDecimals = 0;
