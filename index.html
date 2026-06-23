@@ -201,11 +201,11 @@
         @keyframes pulse-dot {
             0% {
                 transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(62, 107, 78, 0.6);
+                box-shadow: 0 0 0 0 rgba(62, 107, 78, 0.8);
             }
             70% {
                 transform: scale(1);
-                box-shadow: 0 0 0 4px rgba(62, 107, 78, 0);
+                box-shadow: 0 0 0 5px rgba(62, 107, 78, 0);
             }
             100% {
                 transform: scale(0.95);
@@ -261,29 +261,7 @@
             color: rgba(44, 58, 48, 0.4);
         }
 
-        /* ===== Tooltip：墨绿描边 + 墨绿数值 ===== */
-        #chart-tooltip {
-            position: absolute; z-index: 40;
-            opacity: 0; pointer-events: none;
-            padding: 10px 14px; border-radius: 8px;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(44,58,48,0.22);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            transform: translate(-50%, -130%);
-            white-space: nowrap;
-            transition: opacity .22s ease;
-        }
-        #tt-date {
-            font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-            color: #8c8c8c; margin-bottom: 4px;
-        }
-        #tt-value {
-            font-size: 14px; font-weight: 600;
-            font-variant-numeric: tabular-nums;
-            color: var(--deep);
-        }
+        /* Tooltip style removed */
 
         /* ===== TradingView 风格右上角周期选择下拉框 ===== */
         .chart-controls {
@@ -293,13 +271,10 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            background: rgba(245, 243, 238, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(44, 58, 48, 0.12);
-            padding: 4px 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            background: transparent;
+            border: none;
+            padding: 4px 0;
+            box-shadow: none;
             z-index: 50;
         }
         .control-label {
@@ -354,9 +329,9 @@
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(44, 58, 48, 0.12);
+            border: none;
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             width: 140px;
             max-height: 280px;
             overflow-y: auto;
@@ -469,13 +444,17 @@
                 left: 12px;
             }
             .chart-controls {
-                top: 170px;
+                top: 110px;
                 left: 12px;
+                right: auto;
+            }
+            .dropdown-menu-panel {
+                left: 0;
                 right: auto;
             }
         }
         @media (prefers-reduced-motion: reduce) {
-            .rise, .hero-glow-container { animation: none; }
+            .hero-glow-container { animation: none; }
             .docs-link::after, .docs-arrow { transition: none; }
         }
     </style>
@@ -494,11 +473,7 @@
     <!-- 颗粒质感 -->
     <div class="layer z5 grain"></div>
 
-    <!-- Hover tooltip -->
-    <div id="chart-tooltip">
-        <div id="tt-date"></div>
-        <div id="tt-value"></div>
-    </div>
+    <!-- Hover tooltip (Removed) -->
 
     <!-- 上下渐隐 -->
     <div class="layer z10 vignette"></div>
@@ -507,7 +482,7 @@
     <div class="hero-glow-container"><div id="hero-glow-el"></div></div>
 
     <!-- Header -->
-    <header class="z50 rise">
+    <header class="z50">
         <div class="brand font-display">Scorpius Capital Group LLC</div>
         <a href="docs/index.html" class="docs-link" aria-label="Open documentation">
             Docs
@@ -519,8 +494,7 @@
     </header>
 
     <!-- Custom Premium Timeframe Switcher (TradingView 风格自定义下拉菜单) -->
-    <div class="chart-controls z50 rise rise-delay-1" id="tf-dropdown-container">
-        <span class="control-label">Interval</span>
+    <div class="chart-controls z50" id="tf-dropdown-container">
         <div class="custom-dropdown" id="custom-tf-dropdown">
             <button class="dropdown-trigger" id="dropdown-trigger-btn" aria-haspopup="listbox" aria-expanded="false">
                 <span id="selected-tf-display">1 分钟</span>
@@ -586,11 +560,10 @@
     </div>
 
     <!-- TradingView 风格左上角行情区 (简约纵向排列) -->
-    <div class="hero-center z20 rise rise-delay-1">
+    <div class="hero-center z20">
         <div class="ticker-container-plain">
             <div class="ticker-header">
                 <span class="tv-symbol font-display">SCOP LLC</span>
-                <span class="tv-tf font-display" id="tv-tf-label">1m</span>
                 <span style="font-weight: 700; color: rgba(44, 58, 48, 0.45); text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.04em; margin-left: 10px;">MARKET CAP:</span>
                 <span class="ticker-val-v" id="market-cap-ticker">0</span>
                 <span class="ticker-rate-v" id="rate-ticker">0/s</span>
@@ -968,9 +941,6 @@ scheduleNextPriceTick();
 // ==========================================
 const canvas = document.getElementById('chart-canvas');
 const ctx = canvas.getContext('2d');
-const tooltip = document.getElementById('chart-tooltip');
-const ttDate = document.getElementById('tt-date');
-const ttValue = document.getElementById('tt-value');
 
 let margin = { left: 48, right: 80, top: 210, bottom: 80 }; 
 let width, height, dpr;
@@ -988,10 +958,10 @@ function resize() {
     const mobile = width < 768;
     const smallMobile = width < 580;
     margin = {
-        left: mobile ? 16 : 48,
-        right: mobile ? 64 : 80,
-        top: smallMobile ? 210 : (mobile ? 170 : 180),
-        bottom: mobile ? 64 : 80
+        left: mobile ? 12 : 48,
+        right: mobile ? 60 : 80,
+        top: smallMobile ? 140 : (mobile ? 120 : 160),
+        bottom: mobile ? 70 : 80
     };
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
@@ -1043,9 +1013,9 @@ function draw() {
     ctx.clearRect(0, 0, width, height);
     if (chartCandles.length === 0) return;
     
-    const chartW = width - margin.left - margin.right;
-    const chartH = height - margin.top - margin.bottom;
-    const baseY = height - margin.bottom;
+    const chartW = Math.max(100, width - margin.left - margin.right);
+    const chartH = Math.max(60, height - margin.top - margin.bottom);
+    const baseY = margin.top + chartH;
     
     const showCount = Math.min(chartCandles.length, width < 768 ? 40 : 85);
     const visibleCandles = chartCandles.slice(-showCount);
@@ -1072,17 +1042,19 @@ function draw() {
     ctx.textBaseline = 'middle';
     
     for (let i = 0; i <= gridSteps; i++) {
-        const y = margin.top + i * (chartH / gridSteps);
+        const y = Math.floor(margin.top + i * (chartH / gridSteps)) + 0.5;
         
-        ctx.strokeStyle = 'rgba(44, 58, 48, 0.05)';
+        ctx.strokeStyle = 'rgba(44, 58, 48, 0.06)';
         ctx.lineWidth = 1;
+        ctx.setLineDash([2, 4]);
         ctx.beginPath();
         ctx.moveTo(margin.left, y);
         ctx.lineTo(width - margin.right, y);
         ctx.stroke();
+        ctx.setLineDash([]);
         
         const val = yMax - i * (yMax - yMin) / gridSteps;
-        ctx.fillStyle = 'rgba(111, 88, 38, 0.8)';
+        ctx.fillStyle = 'rgba(111, 88, 38, 0.85)';
         ctx.fillText('$' + val.toFixed(2), width - margin.right + 45, y);
     }
     
@@ -1225,7 +1197,7 @@ function draw() {
     const emaValEl = document.getElementById('ema-val');
     if (emaValEl) {
         if (activeEmaVal !== null && activeEmaVal !== undefined) {
-            emaValEl.textContent = '$' + activeEmaVal.toFixed(2);
+            emaValEl.textContent = activeEmaVal.toFixed(2);
         } else {
             emaValEl.textContent = 'n/a';
         }
@@ -1259,6 +1231,7 @@ function draw() {
         ctx.textBaseline = 'middle';
         ctx.fillText('$' + hoverPrice.toFixed(2), width - margin.right + 2 + badgeW / 2, mouseY);
         
+        
         const timeStr = fmtDate(statsCandle.time, activeTimeframe);
         ctx.font = '10px "Roboto", sans-serif';
         const timeBadgeW = ctx.measureText(timeStr).width + 12;
@@ -1267,28 +1240,6 @@ function draw() {
         ctx.fillRect(hoverX - timeBadgeW / 2, baseY + 2, timeBadgeW, timeBadgeH);
         ctx.fillStyle = '#f5f3ee';
         ctx.fillText(timeStr, hoverX, baseY + 2 + timeBadgeH / 2);
-        
-        const changePercent = ((statsCandle.close - statsCandle.open) / statsCandle.open * 100);
-        const changeSign = changePercent >= 0 ? '+' : '';
-        const changeColor = statsCandle.close >= statsCandle.open ? '#3e6b4e' : '#a64234';
-        
-        ttDate.innerHTML = fmtDate(statsCandle.time, activeTimeframe);
-        ttValue.innerHTML = `
-            <div style="display: grid; grid-template-columns: auto auto; gap: 4px 12px; font-size: 11px; margin-top: 4px;">
-                <span>Open:</span><span style="font-weight:600; text-align:right;">$${statsCandle.open.toFixed(2)}</span>
-                <span>High:</span><span style="font-weight:600; text-align:right;">$${statsCandle.high.toFixed(2)}</span>
-                <span>Low:</span><span style="font-weight:600; text-align:right;">$${statsCandle.low.toFixed(2)}</span>
-                <span>Close:</span><span style="font-weight:600; text-align:right; color:${changeColor}">$${statsCandle.close.toFixed(2)}</span>
-                <span>Volume:</span><span style="font-weight:600; text-align:right;">${Math.round(statsCandle.volume).toLocaleString()}</span>
-                <span>Change:</span><span style="font-weight:600; text-align:right; color:${changeColor}">${changeSign}${changePercent.toFixed(2)}%</span>
-            </div>
-        `;
-        
-        tooltip.style.left = hoverX + 'px';
-        tooltip.style.top = mouseY + 'px';
-        tooltip.style.opacity = '1';
-    } else {
-        tooltip.style.opacity = '0';
     }
 }
 
@@ -1311,16 +1262,6 @@ function switchTimeframe(tf) {
                 opt.classList.remove('active');
             }
         });
-    }
-    
-    const tfLabel = document.getElementById('tv-tf-label');
-    if (tfLabel && customDropdown) {
-        const activeOpt = customDropdown.querySelector(`.dropdown-option[data-value="${tf}"]`);
-        if (activeOpt) {
-            tfLabel.textContent = activeOpt.textContent.replace('✓', '').trim();
-        } else {
-            tfLabel.textContent = tf;
-        }
     }
     
     // 生成固定长度的确定性历史数据
@@ -1381,11 +1322,14 @@ function switchTimeframe(tf) {
 }
 
 // ==========================================
-// 4. 左上角简易行情区数值更新 (双 111 对齐更新)
+// 4. 左上角简易行情区数值更新
 // ==========================================
-let lastPriceFormatted = "";
 let lastMCFormatted = "";
 let lastRateFormatted = "";
+
+// 缓存DOM节点，避免每帧重复查询，提升性能
+const mcTickerEl = document.getElementById('market-cap-ticker');
+const rateEl = document.getElementById('rate-ticker');
 
 function updateTicker() {
     if (document.hidden) { requestAnimationFrame(updateTicker); return; }
@@ -1400,20 +1344,8 @@ function updateTicker() {
             break;
         }
     }
-
-    // 1. 格式化 Token 单价
-    const integerLength = Math.floor(currentPrice).toString().length;
-    let decimalPlaces;
-    if (integerLength >= 9) decimalPlaces = 0;
-    else if (integerLength === 1) decimalPlaces = 9;
-    else decimalPlaces = 9 - integerLength;
-
-    const fixedString = currentPrice.toFixed(decimalPlaces);
-    const [integerPart, decimalPart] = fixedString.split('.');
-    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, "<span style='display:inline-block; width:0.12em;'></span>");
-    const formattedPrice = decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
     
-    // 2. 格式化总市值 (总资金 = 单价 * 代币总量)
+    // 格式化总市值 (总资金 = 单价 * 代币总量)
     const fundValue = currentPrice * SCOP_TOTAL_TOKENS;
     const fundIntegerLength = Math.floor(fundValue).toString().length;
     let fundDecimals;
@@ -1435,34 +1367,12 @@ function updateTicker() {
         lastRateFormatted = "+" + valuePerSecond.toFixed(dPlaces) + "/s";
     }
 
-    // 计算当前可见图表的开盘涨跌幅变化 (TradingView 风格)
-    const openPrice = (chartCandles[0] ? chartCandles[0].open : 100 / SCOP_TOTAL_TOKENS);
-    const change = currentPrice - openPrice;
-    const changePct = (change / openPrice * 100);
-    const changeSign = change >= 0 ? '+' : '';
-    const changeColor = change >= 0 ? '#3e6b4e' : '#a64234';
-
-    const tickerEl = document.getElementById('aum-ticker');
-    const mcTickerEl = document.getElementById('market-cap-ticker');
-    const rateEl = document.getElementById('rate-ticker');
-    const trendEl = document.getElementById('ticker-trend');
-
-    if (formattedPrice !== lastPriceFormatted) {
-        if (tickerEl) tickerEl.innerHTML = '$' + formattedPrice;
-        lastPriceFormatted = formattedPrice;
-    }
-    
     if (formattedMC !== lastMCFormatted) {
-        if (mcTickerEl) mcTickerEl.innerHTML = '$' + formattedMC;
+        if (mcTickerEl) mcTickerEl.innerHTML = formattedMC;
         lastMCFormatted = formattedMC;
     }
     
     if (rateEl) rateEl.textContent = lastRateFormatted;
-    
-    if (trendEl) {
-        const changeDecimals = Math.max(2, decimalPlaces);
-        trendEl.innerHTML = `<span style="color:${changeColor}; margin-left: 4px;">${changeSign}${change.toFixed(changeDecimals)} (${changeSign}${changePct.toFixed(2)}%)</span>`;
-    }
 
     requestAnimationFrame(updateTicker);
 }
