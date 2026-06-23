@@ -53,28 +53,34 @@
             --vignette-top: rgba(245, 243, 238, 0.6);
             --dropdown-bg: rgba(255, 255, 255, 0.94);
             --dropdown-hover: rgba(154, 125, 63, 0.1);
+            --header-bg: rgba(245, 243, 238, 0.9);
+            --header-bg-fade: rgba(245, 243, 238, 0);
+            --glow-outer: rgba(245, 243, 238, 0);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #141412;        /* Sleek warm dark charcoal */
-                --ink: #f0ede6;       /* Warm cream off-white */
-                --gold: #c4a866;      /* Lighter gold for dark background */
-                --gold-light: #e5c158;
-                --gold-text: #c4a866;
-                --deep: #a6bba9;      /* Sage green for visibility */
-                --deep-light: #8fa293;
+                --bg: #0e0f0d;        /* Luxury Obsidian Black */
+                --ink: #e6e3db;       /* Silk Platinum */
+                --gold: #c29d53;      /* Brushed Brass/Gold */
+                --gold-light: #e5cc8f;
+                --gold-text: #c29d53;
+                --deep: #8da693;      /* Sage Green */
+                --deep-light: #6e8574;
                 
                 /* Canvas & vignette specific variables */
-                --chart-grid: rgba(240, 237, 230, 0.06);
-                --chart-grid-text: rgba(196, 168, 102, 0.85);
-                --chart-badge-bg: #2c3a30;
-                --chart-badge-text: #f0ede6;
-                --chart-crosshair: rgba(240, 237, 230, 0.15);
-                --chart-price-line: rgba(196, 168, 102, 0.45);
-                --vignette-top: rgba(20, 20, 18, 0.6);
-                --dropdown-bg: rgba(26, 26, 24, 0.94);
-                --dropdown-hover: rgba(196, 168, 102, 0.15);
+                --chart-grid: rgba(230, 227, 219, 0.05);
+                --chart-grid-text: rgba(194, 157, 83, 0.85);
+                --chart-badge-bg: #1c2620; /* Deep dark green badge */
+                --chart-badge-text: #e6e3db;
+                --chart-crosshair: rgba(230, 227, 219, 0.12);
+                --chart-price-line: rgba(194, 157, 83, 0.4);
+                --vignette-top: rgba(14, 15, 13, 0.7);
+                --dropdown-bg: rgba(22, 23, 20, 0.96);
+                --dropdown-hover: rgba(194, 157, 83, 0.15);
+                --header-bg: rgba(14, 15, 13, 0.9);
+                --header-bg-fade: rgba(14, 15, 13, 0);
+                --glow-outer: rgba(14, 15, 13, 0);
             }
         }
 
@@ -147,7 +153,7 @@
         }
         #hero-glow-el {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(154,125,63,0.12) 0%, rgba(245,243,238,0) 60%);
+            background: radial-gradient(circle at center, rgba(154,125,63,0.12) 0%, var(--glow-outer) 60%);
             transition: transform 0.12s ease-out;
             will-change: transform;
         }
@@ -162,12 +168,12 @@
             position: absolute; top: 0; left: 0; width: 100%;
             display: flex; align-items: center; justify-content: space-between;
             padding: 20px 24px;
-            background: linear-gradient(to bottom, rgba(245,243,238,0.9) 0%, rgba(245,243,238,0) 100%);
+            background: linear-gradient(to bottom, var(--header-bg) 0%, var(--header-bg-fade) 100%);
         }
         .brand {
             font-size: 18px; font-weight: 600;
             letter-spacing: 0.02em; white-space: nowrap;
-            color: #1a1a1a;
+            color: var(--ink);
         }
 
         /* Docs Link: Flat text + gold underline hover transition, removed border box */
