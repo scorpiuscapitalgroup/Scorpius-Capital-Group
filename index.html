@@ -37,11 +37,13 @@
         :root {
             --bg: #f5f3ee;
             --ink: #211f1a;
+            --ink-muted: rgba(33, 31, 26, 0.5);
             --gold: #9a7d3f;
             --gold-light: #c4a866;
             --gold-text: #6f5826;
             --deep: #2c3a30;
             --deep-light: #3e5343;
+            --deep-muted: rgba(44, 58, 48, 0.45);
             
             /* Canvas & vignette specific variables */
             --chart-grid: rgba(44, 58, 48, 0.06);
@@ -60,27 +62,29 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #0e0f0d;        /* Luxury Obsidian Black */
-                --ink: #e6e3db;       /* Silk Platinum */
-                --gold: #c29d53;      /* Brushed Brass/Gold */
-                --gold-light: #e5cc8f;
-                --gold-text: #c29d53;
-                --deep: #8da693;      /* Sage Green */
-                --deep-light: #6e8574;
+                --bg: #090a0f;        /* Deep Velvet Navy-Charcoal */
+                --ink: #ffffff;       /* Crisp Platinum White */
+                --ink-muted: rgba(255, 255, 255, 0.45);
+                --gold: #e5b858;      /* Shining Liquid Gold */
+                --gold-light: #fbe69b;
+                --gold-text: #e5b858;
+                --deep: #e6e9ec;      /* High contrast menu links */
+                --deep-light: #a2a8b0; /* Readable slate gray */
+                --deep-muted: rgba(230, 233, 236, 0.45);
                 
                 /* Canvas & vignette specific variables */
-                --chart-grid: rgba(230, 227, 219, 0.05);
-                --chart-grid-text: rgba(194, 157, 83, 0.85);
-                --chart-badge-bg: #1c2620; /* Deep dark green badge */
-                --chart-badge-text: #e6e3db;
-                --chart-crosshair: rgba(230, 227, 219, 0.12);
-                --chart-price-line: rgba(194, 157, 83, 0.4);
-                --vignette-top: rgba(14, 15, 13, 0.7);
-                --dropdown-bg: rgba(22, 23, 20, 0.96);
-                --dropdown-hover: rgba(194, 157, 83, 0.15);
-                --header-bg: rgba(14, 15, 13, 0.9);
-                --header-bg-fade: rgba(14, 15, 13, 0);
-                --glow-outer: rgba(14, 15, 13, 0);
+                --chart-grid: rgba(230, 233, 236, 0.08);
+                --chart-grid-text: rgba(229, 184, 88, 0.85);
+                --chart-badge-bg: #151e18; 
+                --chart-badge-text: #ffffff;
+                --chart-crosshair: rgba(230, 233, 236, 0.15);
+                --chart-price-line: rgba(229, 184, 88, 0.45);
+                --vignette-top: rgba(9, 10, 15, 0.7);
+                --dropdown-bg: rgba(15, 17, 24, 0.96);
+                --dropdown-hover: rgba(229, 184, 88, 0.15);
+                --header-bg: rgba(9, 10, 15, 0.9);
+                --header-bg-fade: rgba(9, 10, 15, 0);
+                --glow-outer: rgba(9, 10, 15, 0);
             }
         }
 
@@ -290,7 +294,7 @@
 
         .ticker-label-v {
             font-weight: 700;
-            color: rgba(44, 58, 48, 0.45);
+            color: var(--deep-muted);
             text-transform: uppercase;
             font-size: 9.5px;
             letter-spacing: 0.04em;
@@ -319,7 +323,7 @@
 
         .ticker-param-v {
             font-size: 10px;
-            color: rgba(44, 58, 48, 0.4);
+            color: var(--deep-muted);
         }
 
         /* Tooltip style removed */
@@ -341,7 +345,7 @@
         .control-label {
             font-size: 11px;
             font-weight: 700;
-            color: rgba(44, 58, 48, 0.5);
+            color: var(--deep-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -434,11 +438,11 @@
         .dropdown-group-title {
             font-size: 8px;
             font-weight: 700;
-            color: rgba(44, 58, 48, 0.4);
+            color: var(--deep-muted);
             text-transform: uppercase;
             letter-spacing: 0.04em;
             padding: 2px 6px;
-            border-bottom: 1px solid rgba(44, 58, 48, 0.04);
+            border-bottom: 1px solid var(--chart-grid);
             margin-bottom: 2px;
             pointer-events: none;
         }
@@ -659,7 +663,7 @@
         <div class="ticker-container-plain">
             <div class="ticker-header">
                 <span class="tv-symbol font-display">SCOP LLC</span>
-                <span style="font-weight: 700; color: rgba(44, 58, 48, 0.45); text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.04em; margin-left: 10px;">TOTAL ASSETS:</span>
+                <span style="font-weight: 700; color: var(--deep-muted); text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.04em; margin-left: 10px;">TOTAL ASSETS:</span>
                 <span class="ticker-val-v" id="market-cap-ticker">0</span>
                 <span class="ticker-rate-v" id="rate-ticker">0/s</span>
                 <div class="live-dot-container" style="margin-left: 15px;">
