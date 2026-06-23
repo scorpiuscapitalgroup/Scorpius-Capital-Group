@@ -7,15 +7,15 @@
 
     <script>
         // =========================================================================
-        // 【核心数据配置中心】 ——— 请在此处输入您需要展示的“代币发行总量”以及“总资金数据”
+        // [Core Data Configuration Center] - Please input the total token supply and total assets data here.
         // =========================================================================
 
-        // 1. 代币发行总量 (发生拆分股票时，直接修改此处。例如：100 改成 1000 或任何数值)
-        //    公式：股权代币现价 (PRICE) = 总资金 (MKT CAP) / 代币发行总量
+        // 1. Total Token Supply (modify this when a stock split occurs. E.g., change 100 to 1000 or any other value)
+        //    Formula: Equity Token Price (PRICE) = Total Assets (MKT CAP) / Total Token Supply
         const SCOP_TOTAL_TOKENS = 100;
 
-        // 2. 总资金（总市值）历史数据与未来预测金额表 (格式: 年月日,总资金数值)
-        //    您可以随时在最下方增加下个月的时间和预测金额
+        // 2. Total Assets (Total Market Cap) Historical Data and Future Projections (Format: YYYYMMDD, Value)
+        //    You can add the next month's date and projected value at the bottom at any time.
         const AUM_CSV_TEXT = `Date,Value
 20260612,100
 20260618,101
@@ -31,7 +31,7 @@
     <meta name="twitter:description" content="Disciplined capital. Compounding conviction.">
     
     <style>
-        /* ===== 字体（全局 Roboto） ===== */
+        /* ===== Typography (Global Roboto) ===== */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
         :root {
@@ -39,8 +39,8 @@
             --ink: #211f1a;
             --gold: #9a7d3f;
             --gold-light: #c4a866;
-            --gold-text: #6f5826;   /* 加深后的金色，满足 WCAG AA */
-            --deep: #2c3a30;        /* 墨绿 */
+            --gold-text: #6f5826;   /* Darker gold to satisfy WCAG AA */
+            --deep: #2c3a30;        /* Dark Green */
             --deep-light: #3e5343;
         }
 
@@ -61,7 +61,7 @@
             user-select: none;
         }
 
-        /* 保留类名，统一指向 Roboto */
+        /* Keep class names, uniformly pointing to Roboto */
         .font-display { font-family: 'Roboto', sans-serif; }
         .font-mono {
             font-family: 'Roboto', sans-serif;
@@ -69,7 +69,7 @@
             font-feature-settings: 'tnum' 1;
         }
 
-        /* ===== 布局骨架 ===== */
+        /* ===== Layout Skeleton ===== */
         .stage { position: relative; width: 100%; height: 100vh; }
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .z0  { z-index: 0; }
@@ -80,7 +80,7 @@
         .z40 { z-index: 40; }
         .z50 { z-index: 50; }
 
-        /* ===== 顶部金属金细线 ===== */
+        /* ===== Top Metal Gold Hairline ===== */
         .top-hairline {
             position: absolute; top: 0; left: 0; width: 100%;
             height: 2px;
@@ -88,7 +88,7 @@
             opacity: 0.5;
         }
 
-        /* ===== 背景图层 ===== */
+        /* ===== Background Layers ===== */
         #chart-canvas { cursor: crosshair; display: block; }
 
         .grain {
@@ -103,7 +103,7 @@
             background: linear-gradient(to bottom, rgba(245,243,238,0.6) 0%, transparent 50%, rgba(245,243,238,0.6) 100%);
         }
 
-        /* ===== 中心呼吸光晕（跟随鼠标） ===== */
+        /* ===== Hero Breathing Glow (Following Mouse) ===== */
         .hero-glow-container {
             position: absolute; left: 50%; top: 50%;
             width: 120vw; height: 120vh;
@@ -136,7 +136,7 @@
             color: #1a1a1a;
         }
 
-        /* Docs 链接：扁平文字 + 金色下划线滑入，去掉边框盒子 */
+        /* Docs Link: Flat text + gold underline hover transition, removed border box */
         .docs-link {
             position: relative;
             display: inline-flex; align-items: center; gap: 7px;
@@ -160,7 +160,7 @@
         .docs-arrow { width: 13px; height: 13px; transition: transform .3s cubic-bezier(.16,1,.3,1); }
         .docs-link:hover .docs-arrow { transform: translateX(3px); }
 
-        /* ===== TradingView 风格左上角行情区 (纵向双行数值显示) ===== */
+        /* ===== TradingView-style Top-Left Ticker (Vertical Double-Row Value Display) ===== */
         .hero-center {
             position: absolute;
             top: 86px;
@@ -168,7 +168,7 @@
             text-align: left;
             pointer-events: none;
         }
-        /* ===== 普通左上角行情区 (无卡片背景) ===== */
+        /* ===== Standard Top-Left Ticker (No Card Background) ===== */
         .ticker-container-plain {
             display: flex;
             flex-direction: column;
@@ -254,7 +254,7 @@
             text-transform: uppercase;
             font-size: 9.5px;
             letter-spacing: 0.04em;
-            width: 55px; /* 固定宽度对齐数值 */
+            width: 55px; /* Fixed width to align values */
             display: inline-block;
         }
 
@@ -284,7 +284,7 @@
 
         /* Tooltip style removed */
 
-        /* ===== TradingView 风格右上角周期选择下拉框 ===== */
+        /* ===== TradingView-style Top-Right Timeframe Selection Dropdown ===== */
         .chart-controls {
             position: absolute;
             top: 86px;
@@ -305,11 +305,11 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        /* ===== 自定义下拉菜单样式 ===== */
+        /* ===== Custom Dropdown Style ===== */
         .custom-dropdown {
             position: relative;
             display: inline-block;
-            pointer-events: auto; /* 保证可点击 */
+            pointer-events: auto; /* Ensure clickable */
         }
 
         .dropdown-trigger {
@@ -368,7 +368,7 @@
             transform: translateY(0);
         }
 
-        /* 滚动条美化 */
+        /* Scrollbar Styling */
         .dropdown-menu-panel::-webkit-scrollbar {
             width: 4px;
         }
@@ -429,7 +429,7 @@
             font-weight: 700;
         }
 
-        /* ===== 页脚：墨绿顶线 + 双色 ===== */
+        /* ===== Footer: Dark Green Top Line + Two Colors ===== */
         footer {
             position: absolute; bottom: 0; left: 0; width: 100%;
             min-height: 40px;
@@ -461,7 +461,7 @@
             user-select: none;
         }
 
-        /* ===== 响应式 ===== */
+        /* ===== Responsive Layouts ===== */
         @media (min-width: 768px) {
             header { padding: 32px 35px 32px 48px; }
             .brand { font-size: 24px; }
@@ -519,21 +519,21 @@
 
     <div class="top-hairline z50"></div>
 
-    <!-- K线图背景 -->
+    <!-- Candlestick Chart Background -->
     <div class="layer z0">
         <canvas id="chart-canvas" role="img"
                 aria-label="Scorpius Capital Group SCOP equity token performance candle chart"></canvas>
     </div>
 
-    <!-- 颗粒质感 -->
+    <!-- Noise Texture -->
     <div class="layer z5 grain"></div>
 
     <!-- Hover tooltip (Removed) -->
 
-    <!-- 上下渐隐 -->
+    <!-- Top & Bottom Vignette Fade -->
     <div class="layer z10 vignette"></div>
 
-    <!-- 呼吸 + 跟随鼠标光晕 -->
+    <!-- Breathing + Mouse Glow Effect -->
     <div class="hero-glow-container"><div id="hero-glow-el"></div></div>
 
     <!-- Header -->
@@ -548,11 +548,11 @@
         </a>
     </header>
 
-    <!-- Custom Premium Timeframe Switcher (TradingView 风格自定义下拉菜单) -->
+    <!-- Custom Premium Timeframe Switcher (TradingView-style Custom Dropdown) -->
     <div class="chart-controls z50" id="tf-dropdown-container">
         <div class="custom-dropdown" id="custom-tf-dropdown">
             <button class="dropdown-trigger" id="dropdown-trigger-btn" aria-haspopup="listbox" aria-expanded="false">
-                <span id="selected-tf-display">1 分钟</span>
+                <span id="selected-tf-display">1 Min</span>
                 <svg class="dropdown-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
@@ -561,70 +561,69 @@
                 <div class="dropdown-scroll-container">
                     <div class="dropdown-group">
                         <div class="dropdown-group-title">Ticks</div>
-                        <div class="dropdown-option" data-value="1T">1 ticks</div>
-                        <div class="dropdown-option" data-value="10T">10 ticks</div>
-                        <div class="dropdown-option" data-value="100T">100 ticks</div>
-                        <div class="dropdown-option" data-value="1000T">1000 ticks</div>
+                        <div class="dropdown-option" data-value="1T">1 Tick</div>
+                        <div class="dropdown-option" data-value="10T">10 Ticks</div>
+                        <div class="dropdown-option" data-value="100T">100 Ticks</div>
+                        <div class="dropdown-option" data-value="1000T">1000 Ticks</div>
                     </div>
                     <div class="dropdown-group">
-                        <div class="dropdown-group-title">秒</div>
-                        <div class="dropdown-option" data-value="1s">1 秒</div>
-                        <div class="dropdown-option" data-value="5s">5 秒</div>
-                        <div class="dropdown-option" data-value="10s">10 秒</div>
-                        <div class="dropdown-option" data-value="15s">15 秒</div>
-                        <div class="dropdown-option" data-value="30s">30 秒</div>
-                        <div class="dropdown-option" data-value="45s">45 秒</div>
+                        <div class="dropdown-group-title">Seconds</div>
+                        <div class="dropdown-option" data-value="1s">1 Sec</div>
+                        <div class="dropdown-option" data-value="5s">5 Sec</div>
+                        <div class="dropdown-option" data-value="10s">10 Sec</div>
+                        <div class="dropdown-option" data-value="15s">15 Sec</div>
+                        <div class="dropdown-option" data-value="30s">30 Sec</div>
+                        <div class="dropdown-option" data-value="45s">45 Sec</div>
                     </div>
                     <div class="dropdown-group">
-                        <div class="dropdown-group-title">分</div>
-                        <div class="dropdown-option active" data-value="1m">1 分钟</div>
-                        <div class="dropdown-option" data-value="2m">2 分钟</div>
-                        <div class="dropdown-option" data-value="3m">3 分钟</div>
-                        <div class="dropdown-option" data-value="5m">5 分钟</div>
-                        <div class="dropdown-option" data-value="10m">10 分钟</div>
-                        <div class="dropdown-option" data-value="15m">15 分钟</div>
-                        <div class="dropdown-option" data-value="30m">30 分钟</div>
-                        <div class="dropdown-option" data-value="45m">45 分钟</div>
+                        <div class="dropdown-group-title">Minutes</div>
+                        <div class="dropdown-option active" data-value="1m">1 Min</div>
+                        <div class="dropdown-option" data-value="2m">2 Min</div>
+                        <div class="dropdown-option" data-value="3m">3 Min</div>
+                        <div class="dropdown-option" data-value="5m">5 Min</div>
+                        <div class="dropdown-option" data-value="10m">10 Min</div>
+                        <div class="dropdown-option" data-value="15m">15 Min</div>
+                        <div class="dropdown-option" data-value="30m">30 Min</div>
+                        <div class="dropdown-option" data-value="45m">45 Min</div>
                     </div>
                     <div class="dropdown-group">
-                        <div class="dropdown-group-title">小时</div>
-                        <div class="dropdown-option" data-value="1h">1 小时</div>
-                        <div class="dropdown-option" data-value="2h">2 小时</div>
-                        <div class="dropdown-option" data-value="3h">3 小时</div>
-                        <div class="dropdown-option" data-value="4h">4 小时</div>
+                        <div class="dropdown-group-title">Hours</div>
+                        <div class="dropdown-option" data-value="1h">1 Hour</div>
+                        <div class="dropdown-option" data-value="2h">2 Hours</div>
+                        <div class="dropdown-option" data-value="3h">3 Hours</div>
+                        <div class="dropdown-option" data-value="4h">4 Hours</div>
                     </div>
                     <div class="dropdown-group">
-                        <div class="dropdown-group-title">天</div>
-                        <div class="dropdown-option" data-value="1d">1 日</div>
-                        <div class="dropdown-option" data-value="1w">1 周</div>
-                        <div class="dropdown-option" data-value="1mo">1 月</div>
-                        <div class="dropdown-option" data-value="3mo">3 月</div>
-                        <div class="dropdown-option" data-value="6mo">6 月</div>
-                        <div class="dropdown-option" data-value="12mo">12 月</div>
+                        <div class="dropdown-group-title">Days</div>
+                        <div class="dropdown-option" data-value="1d">1 Day</div>
+                        <div class="dropdown-option" data-value="1w">1 Week</div>
+                        <div class="dropdown-option" data-value="1mo">1 Month</div>
+                        <div class="dropdown-option" data-value="3mo">3 Months</div>
+                        <div class="dropdown-option" data-value="6mo">6 Months</div>
+                        <div class="dropdown-option" data-value="12mo">12 Months</div>
                     </div>
                     <div class="dropdown-group">
-                        <div class="dropdown-group-title">范围</div>
-                        <div class="dropdown-option" data-value="1R">1 范围</div>
-                        <div class="dropdown-option" data-value="10R">10 范围</div>
-                        <div class="dropdown-option" data-value="100R">100 范围</div>
-                        <div class="dropdown-option" data-value="1000R">1000 范围</div>
+                        <div class="dropdown-group-title">Range</div>
+                        <div class="dropdown-option" data-value="1R">1 Range</div>
+                        <div class="dropdown-option" data-value="10R">10 Ranges</div>
+                        <div class="dropdown-option" data-value="100R">100 Ranges</div>
+                        <div class="dropdown-option" data-value="1000R">1000 Ranges</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TradingView 风格左上角行情区 (简约纵向排列) -->
+    <!-- TradingView-style Ticker Header -->
     <div class="hero-center z20">
         <div class="ticker-container-plain">
             <div class="ticker-header">
                 <span class="tv-symbol font-display">SCOP LLC</span>
-                <span style="font-weight: 700; color: rgba(44, 58, 48, 0.45); text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.04em; margin-left: 10px;">MARKET CAP:</span>
+                <span style="font-weight: 700; color: rgba(44, 58, 48, 0.45); text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.04em; margin-left: 10px;">TOTAL ASSETS:</span>
                 <span class="ticker-val-v" id="market-cap-ticker">0</span>
                 <span class="ticker-rate-v" id="rate-ticker">0/s</span>
                 <div class="live-dot-container" style="margin-left: 15px;">
                     <span class="live-dot"></span>
-                    <span class="live-text">LIVE</span>
                 </div>
             </div>
             <div class="ticker-row-v">
@@ -635,24 +634,24 @@
         </div>
     </div>
 
-    <!-- 页脚 -->
+    <!-- Footer -->
     <footer class="z50">
         <span>&copy; 2026 <span class="accent">Scorpius Capital Group LLC</span>. All rights reserved.</span>
         <div class="footer-links">
-            <a href="#privacy">隐私政策</a>
+            <a href="#privacy">Privacy Policy</a>
             <span class="divider">|</span>
-            <a href="#terms">服务条款</a>
+            <a href="#terms">Terms of Service</a>
             <span class="divider">|</span>
-            <a href="#risk">风险披露</a>
+            <a href="#risk">Risk Disclosure</a>
             <span class="divider">|</span>
-            <a href="#contact">联系方式</a>
+            <a href="#contact">Contact Us</a>
         </div>
     </footer>
 </div>
 
 <script>
 // =========================================================================
-// 【安全防护组件】 ——— 禁用 F12、右键及复制
+// [Security Component] - Disable F12, Right-click, and Copying
 // =========================================================================
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('selectstart', e => e.preventDefault());
@@ -660,22 +659,22 @@ document.addEventListener('copy', e => e.preventDefault());
 document.addEventListener('cut', e => e.preventDefault());
 
 document.addEventListener('keydown', e => {
-    // 禁用 F12
+    // Disable F12
     if (e.key === 'F12' || e.keyCode === 123) {
         e.preventDefault();
         return false;
     }
-    // 禁用 Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+    // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
         e.preventDefault();
         return false;
     }
-    // 禁用 Ctrl+U (查看源代码)
+    // Disable Ctrl+U (View Source)
     if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
         e.preventDefault();
         return false;
     }
-    // 禁用 Ctrl+S (保存页面)
+    // Disable Ctrl+S (Save Page)
     if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
         e.preventDefault();
         return false;
@@ -698,7 +697,7 @@ function parseData() {
 
 const FULL_DATA = parseData();
 
-// 获取当前时刻按照直线插值应当达到的价格
+// Get target price based on linear interpolation at the current timestamp
 function getTargetPriceAt(timestamp) {
     if (FULL_DATA.length === 0) return 100;
     if (timestamp <= FULL_DATA[0].timestamp) {
@@ -719,29 +718,29 @@ function getTargetPriceAt(timestamp) {
 }
 
 // ==========================================
-// 2. 确定性波动与真实交易仿真跳动引擎
+// 2. Deterministic Volatility & Live Jitter Emulation Engine
 // ==========================================
 let currentPrice = getTargetPriceAt(Date.now());
 let activeTimeframe = '1m'; 
 let chartCandles = [];
 let lastTickTime = Date.now();
-let liveJitter = 0; // 实时跳动偏移
+let liveJitter = 0; // Live jitter offset
 
 function getIntervalMs(tf) {
     switch (tf) {
         // Ticks
-        case '1T': return 800;      // 1 Tick (平均约 800ms)
-        case '10T': return 8000;    // 10 Ticks (平均约 8s)
-        case '100T': return 80000;  // 100 Ticks (平均约 80s)
-        case '1000T': return 800000; // 1000 Ticks (平均约 800s)
-        // 秒
+        case '1T': return 800;      // 1 Tick (average approx 800ms)
+        case '10T': return 8000;    // 10 Ticks (average approx 8s)
+        case '100T': return 80000;  // 100 Ticks (average approx 80s)
+        case '1000T': return 800000; // 1000 Ticks (average approx 800s)
+        // Seconds
         case '1s': return 1000;
         case '5s': return 5000;
         case '10s': return 10000;
         case '15s': return 15000;
         case '30s': return 30000;
         case '45s': return 45000;
-        // 分
+        // Minutes
         case '1m': return 60000;
         case '2m': return 120000;
         case '3m': return 180000;
@@ -750,19 +749,19 @@ function getIntervalMs(tf) {
         case '15m': return 900000;
         case '30m': return 1800000;
         case '45m': return 2700000;
-        // 小时
+        // Hours
         case '1h': return 3600000;
         case '2h': return 7200000;
         case '3h': return 10800000;
         case '4h': return 14400000;
-        // 天
+        // Days
         case '1d': return 86400000;
         case '1w': return 604800000;
-        case '1mo': return 2592000000;  // 30天
-        case '3mo': return 7776000000;  // 90天
-        case '6mo': return 15552000000; // 180天
-        case '12mo': return 31536000000; // 365天
-        // 范围 (Range)
+        case '1mo': return 2592000000;  // 30Days
+        case '3mo': return 7776000000;  // 90Days
+        case '6mo': return 15552000000; // 180Days
+        case '12mo': return 31536000000; // 365Days
+        // Range
         case '1R': return 1000;
         case '10R': return 10000;
         case '100R': return 100000;
@@ -773,32 +772,32 @@ function getIntervalMs(tf) {
 
 function getVolFactor(tf) {
     const intervalSec = getIntervalMs(tf) / 1000;
-    const baseVol = 0.0012; // 每秒基础波动率 (0.12%)
+    const baseVol = 0.0012; // Base volatility per second (0.12%)
     return Math.min(0.05, baseVol * Math.sqrt(intervalSec));
 }
 
-// 确定性伪随机数生成器
+// Deterministic pseudo-random number generator
 function getRandomForTime(timestamp, offset = 0) {
     const seed = (timestamp % 10000000) + offset * 12345;
     const x = Math.sin(seed) * 10000;
     return x - Math.floor(x);
 }
 
-// 基于多频正弦波叠加生成的确定性平滑趋势 (总资金/总市值)
+// Deterministic smooth trend based on multi-frequency sine wave overlay (Total Assets/Market Cap)
 function getDeterministicPrice(t) {
     const target = getTargetPriceAt(t);
     
-    // 叠加8个质数调和周期的正弦波，消除常规周期感，模拟金融市场的随机漫步走势
-    const w1 = Math.sin(t / 86400000 / 0.73 + 1.1) * 0.06; // ~1.3天周期
-    const w2 = Math.sin(t / 3600000 / 0.59 + 2.3) * 0.03;  // ~2小时周期
-    const w3 = Math.sin(t / 3600000 / 0.17 + 4.7) * 0.015; // ~36分钟周期
-    const w4 = Math.sin(t / 600000 / 0.31 + 0.5) * 0.008;  // ~18分钟周期
-    const w5 = Math.sin(t / 60000 / 0.47 + 3.1) * 0.004;   // ~2分钟周期
-    const w6 = Math.sin(t / 60000 / 0.13 + 1.7) * 0.002;   // ~45秒周期
-    const w7 = Math.sin(t / 10000 / 0.29 + 5.3) * 0.001;   // ~15秒周期
-    const w8 = Math.sin(t / 1000 / 0.43 + 0.9) * 0.0005;   // ~2秒周期
+    // Overlay 8 harmonic cycles of sine waves to eliminate regular periodicity and emulate random walk
+    const w1 = Math.sin(t / 86400000 / 0.73 + 1.1) * 0.06; // ~1.3-day period
+    const w2 = Math.sin(t / 3600000 / 0.59 + 2.3) * 0.03;  // ~2-hour period
+    const w3 = Math.sin(t / 3600000 / 0.17 + 4.7) * 0.015; // ~36-minute period
+    const w4 = Math.sin(t / 600000 / 0.31 + 0.5) * 0.008;  // ~18-minute period
+    const w5 = Math.sin(t / 60000 / 0.47 + 3.1) * 0.004;   // ~2-minute period
+    const w6 = Math.sin(t / 60000 / 0.13 + 1.7) * 0.002;   // ~45-second period
+    const w7 = Math.sin(t / 10000 / 0.29 + 5.3) * 0.001;   // ~15-second period
+    const w8 = Math.sin(t / 1000 / 0.43 + 0.9) * 0.0005;   // ~2-second period
     
-    // 引入高频交易伪随机噪声
+    // Introduce high-frequency trading pseudo-random noise
     const seed = Math.sin(Math.floor(t / 1000)) * 10000;
     const r = (seed - Math.floor(seed)) - 0.5;
     const w9 = r * 0.0008;
@@ -898,7 +897,7 @@ function getDeterministicCandleTimes(tf, now, count) {
     return times;
 }
 
-// 根据时间戳生成确定性K线数据 (展示价格 = 总资金 / 代币总量)
+// Generate deterministic candlestick data based on timestamp (Displayed Price = Total Assets / Total Tokens)
 function generateCandle(candleTime, tf, nextTime) {
     const nextT = nextTime || (candleTime + getIntervalMs(tf));
     const candleInterval = nextT - candleTime;
@@ -921,7 +920,7 @@ function generateCandle(candleTime, tf, nextTime) {
     const rL = getRandomForTime(candleTime, 25);
     highVal += rH * vol * openVal * 0.25;
     lowVal -= rL * vol * openVal * 0.25;
-    if (lowVal < 0.00000001) lowVal = 0.00000001; // 兼容极小的拆分后价格
+    if (lowVal < 0.00000001) lowVal = 0.00000001; // Compatible with extremely small split price
     
     return {
         time: candleTime,
@@ -933,7 +932,7 @@ function generateCandle(candleTime, tf, nextTime) {
     };
 }
 
-// 实时追加最新K线数据
+// Real-time append of the latest candlestick
 function updateActiveCandle(now) {
     const candleTime = getCandleStart(activeTimeframe, now);
     
@@ -987,7 +986,7 @@ function updateActiveCandle(now) {
     }
 }
 
-// 交易仿真滴答器：以随机延迟 300ms ~ 1200ms 模拟真实撮合交易产生的最新价跳动
+// Transaction simulation ticker: emulate price ticks with random delay 300ms - 1200ms
 function priceTick() {
     const now = Date.now();
     const dt = (now - lastTickTime) / 1000;
@@ -995,7 +994,7 @@ function priceTick() {
     
     const baseFund = getDeterministicPrice(now);
     
-    // 仿真单笔成交引起的波动率
+    // Emulate volatility from a single transaction
     const jitterVol = 0.0006; 
     liveJitter = liveJitter * 0.85 + (Math.random() - 0.5) * jitterVol * baseFund;
     
@@ -1006,7 +1005,7 @@ function priceTick() {
     updateActiveCandle(now);
 }
 
-// 使用递归的 setTimeout 来模拟不规则、有呼吸感的真实市场成交 tick
+// Use recursive setTimeout to emulate irregular and natural market ticks
 function scheduleNextPriceTick() {
     const delay = 300 + Math.random() * 900;
     setTimeout(() => {
@@ -1017,7 +1016,7 @@ function scheduleNextPriceTick() {
 scheduleNextPriceTick();
 
 // ==========================================
-// 3. K线图表渲染引擎 (HTML5 Canvas)
+// 3. Candlestick Chart Rendering Engine (HTML5 Canvas)
 // ==========================================
 const canvas = document.getElementById('chart-canvas');
 const ctx = canvas.getContext('2d');
@@ -1115,7 +1114,7 @@ function draw() {
     const candleSpace = chartW / visibleCountForSpace;
     const candleW = candleSpace * 0.7;
     
-    // 1. 水平网格线及Y轴报价
+    // 1. Horizontal gridlines and Y-axis price labels
     const gridSteps = 5;
     ctx.font = '11px "Roboto", sans-serif';
     ctx.textAlign = 'right';
@@ -1138,7 +1137,7 @@ function draw() {
         ctx.fillText('$' + val.toFixed(2), width - margin.right + 45, y);
     }
     
-    // 2. 绘制垂直时间线
+    // 2. Draw vertical timeline
     const labelStep = Math.max(1, Math.ceil(visibleCandles.length / (width < 768 ? 4 : 8)));
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
@@ -1158,7 +1157,7 @@ function draw() {
         }
     });
     
-    // 3. 绘制实体与外部阴影线
+    // 3. Draw candle bodies and wicks
     visibleCandles.forEach((c, i) => {
         const k = i + rightOffset;
         const x = margin.left + k * candleSpace;
@@ -1179,7 +1178,7 @@ function draw() {
         ctx.strokeStyle = color;
         ctx.lineWidth = 1.5;
         
-        // 阴影引线只画在实体外侧
+        // Draw wicks only outside the bodies
         ctx.beginPath();
         ctx.moveTo(cx, yHigh);
         ctx.lineTo(cx, bodyTop);
@@ -1190,7 +1189,7 @@ function draw() {
         ctx.lineTo(cx, yLow);
         ctx.stroke();
         
-        // 实体
+        // Candle bodies
         ctx.fillStyle = fillColor;
         ctx.strokeStyle = color;
         ctx.lineWidth = 1.2;
@@ -1201,7 +1200,7 @@ function draw() {
         ctx.stroke();
     });
     
-    // 4. 绘制 EMA 20 均线
+    // 4. Draw EMA 20 line
     const emaValues = calculateEMA20(chartCandles);
     const emaPoints = [];
     const fullStartIndex = chartCandles.length - visibleCandles.length;
@@ -1229,7 +1228,7 @@ function draw() {
         ctx.stroke();
     }
     
-    // 5. 现价虚线与气泡价格
+    // 5. Draw current price dashed line and label badge
     const yLive = margin.top + chartH - (currentPrice - yMin) / (yMax - yMin) * chartH;
     
     ctx.strokeStyle = 'rgba(154, 125, 63, 0.45)';
@@ -1255,7 +1254,7 @@ function draw() {
     ctx.textBaseline = 'middle';
     ctx.fillText('$' + currentPrice.toFixed(2), width - margin.right + 2 + badgeW / 2, yLive);
     
-    // 6. 处理悬停交互与EMA数值展示
+    // 6. Handle hover interactions and EMA values
     let statsCandle = visibleCandles[visibleCandles.length - 1];
     let isHoveringActive = false;
     
@@ -1271,7 +1270,7 @@ function draw() {
         hoverIndex = -1;
     }
     
-    // 同步更新 HTML 中的 EMA 20 指标与参数的实时数值
+    // Synchronously update the EMA 20 indicators and parameters
     const activeEmaIndex = isHoveringActive ? (fullStartIndex + hoverIndex) : (chartCandles.length - 1);
     const activeEmaVal = emaValues[activeEmaIndex];
     const emaValEl = document.getElementById('ema-val');
@@ -1283,7 +1282,7 @@ function draw() {
         }
     }
     
-    // 7. 十字交互虚线与 Tooltip
+    // 7. Draw crosshair guidelines and tooltip
     if (isHoveringActive) {
         const hoverX = margin.left + (hoverIndex + rightOffset) * candleSpace + candleW / 2;
         
@@ -1323,11 +1322,11 @@ function draw() {
     }
 }
 
-// 切换时间周期 (加载确定性历史，当前状态完美同步)
+// Switch timeframe (load deterministic history, sync current state)
 function switchTimeframe(tf) {
     activeTimeframe = tf;
     
-    // 同步自定义下拉菜单的选择状态
+    // Sync active state of custom dropdown menu options
     const customDropdown = document.getElementById('custom-tf-dropdown');
     if (customDropdown) {
         const options = customDropdown.querySelectorAll('.dropdown-option');
@@ -1344,11 +1343,11 @@ function switchTimeframe(tf) {
         });
     }
     
-    // 生成固定长度的确定性历史数据
+    // Generate fixed length of deterministic historical data
     const count = 120;
     const now = Date.now();
     
-    // 先计算当前单价，以便直接初始化最后一根活跃K线，防止页面加载时闪烁
+    // Pre-calculate current unit price to initialize the active candle and prevent page flickering
     currentPrice = getDeterministicPrice(now) / SCOP_TOTAL_TOKENS;
     
     const candleTimes = getDeterministicCandleTimes(tf, now, count);
@@ -1379,13 +1378,13 @@ function switchTimeframe(tf) {
             nextStepTime = stepTime + interval;
         }
         
-        // 如果此 K 线的时间早于数据起始时间，跳过生成（实现历史上市首日以后的图表渲染）
+        // Skip generation if before start date (rendering charts after listing day)
         if (nextStepTime < firstTimestamp) {
             continue;
         }
         
         if (i === count - 1) {
-            // 当前活跃的 K 线，直接用实时计算的 Price 进行渲染
+            // Directly render the active candle with the real-time price
             const openVal = getDeterministicPrice(stepTime) / SCOP_TOTAL_TOKENS;
             chartCandles.push({
                 time: stepTime,
@@ -1402,12 +1401,12 @@ function switchTimeframe(tf) {
 }
 
 // ==========================================
-// 4. 左上角简易行情区数值更新
+// 4. Update values in top-left ticker
 // ==========================================
 let lastMCFormatted = "";
 let lastRateFormatted = "";
 
-// 缓存DOM节点，避免每帧重复查询，提升性能
+// Cache DOM elements to optimize performance
 const mcTickerEl = document.getElementById('market-cap-ticker');
 const rateEl = document.getElementById('rate-ticker');
 
@@ -1425,7 +1424,7 @@ function updateTicker() {
         }
     }
     
-    // 格式化总市值 (总资金 = 预期市值，不随K线随机波动)
+    // Format total assets (Total Assets = expected market cap, unaffected by candle jitter)
     const fundValue = getTargetPriceAt(now);
     const fundIntegerLength = Math.floor(fundValue).toString().length;
     let fundDecimals;
@@ -1438,7 +1437,7 @@ function updateTicker() {
     const formattedFundInt = fundInt.replace(/\B(?=(\d{3})+(?!\d))/g, "<span style='display:inline-block; width:0.12em;'></span>");
     const formattedMC = fundDec ? `${formattedFundInt}.${fundDec}` : formattedFundInt;
 
-    // 格式化漂移率
+    // Format rate of drift
     if (!isFinite(valuePerSecond) || valuePerSecond === 0) {
         lastRateFormatted = "0/s";
     } else {
@@ -1458,9 +1457,9 @@ function updateTicker() {
 }
 
 // ==========================================
-// 5. 事件绑定与启动
+// 5. Event binding and initialization
 // ==========================================
-// 自定义下拉菜单交互
+// Custom dropdown menu interactions
 const customDropdown = document.getElementById('custom-tf-dropdown');
 const triggerBtn = document.getElementById('dropdown-trigger-btn');
 const displayLabel = document.getElementById('selected-tf-display');
@@ -1478,39 +1477,39 @@ if (triggerBtn && customDropdown) {
         }
     });
 
-    // 点击外部区域关闭下拉菜单
+    // Close dropdown menu when clicking outside
     document.addEventListener('click', () => {
         customDropdown.classList.remove('open');
         triggerBtn.setAttribute('aria-expanded', 'false');
     });
 
-    // 绑定选项点击事件
+    // Bind option click events
     const options = customDropdown.querySelectorAll('.dropdown-option');
     options.forEach(opt => {
         opt.addEventListener('click', (e) => {
             e.stopPropagation();
             const val = opt.getAttribute('data-value');
             
-            // 更新 active 样式
+            // Update active class
             options.forEach(o => o.classList.remove('active'));
             opt.classList.add('active');
             
-            // 更新触发按钮显示的文字
+            // Update trigger button display text
             if (displayLabel) {
                 displayLabel.textContent = opt.textContent.replace('✓', '').trim();
             }
             
-            // 调用周期切换
+            // Invoke timeframe switch
             switchTimeframe(val);
             
-            // 关闭下拉菜单
+            // Close dropdown menu
             customDropdown.classList.remove('open');
             triggerBtn.setAttribute('aria-expanded', 'false');
         });
     });
 }
 
-// 绑定Canvas交互
+// Bind Canvas interactive hover events
 canvas.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
     mouseX = e.clientX - rect.left;
@@ -1525,12 +1524,12 @@ canvas.addEventListener('mouseleave', () => {
 window.addEventListener('resize', resize);
 window.addEventListener('load', resize);
 
-// 初始化K线和滚动数字
+// Initialize chart and ticker
 resize();
-switchTimeframe('1m'); // 默认初始显示1分钟周期
+switchTimeframe('1m'); // Default to 1m timeframe
 updateTicker();
 
-// 绘制渲染帧循环
+// Render frame drawing loop
 function frame() {
     if (!width || !height || width === 0 || height === 0 || canvas.width === 0 || canvas.height === 0) {
         resize();
@@ -1540,7 +1539,7 @@ function frame() {
 }
 requestAnimationFrame(frame);
 
-// 光晕跟随鼠标
+// Glow container follows mouse movements
 document.addEventListener('mousemove', (e) => {
     const glowEl = document.getElementById('hero-glow-el');
     if (!glowEl) return;

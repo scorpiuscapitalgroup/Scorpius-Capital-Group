@@ -1,2 +1,2 @@
-- [财务报表](/documents/financial-statements/)
-  - [2026 年度财务报表](/documents/financial-statements/FS2026.md)
+- [Financial Statements](/documents/financial-statements/)
+  - [FY2026 Financial Statements](/documents/financial-statements/FS2026.md)
