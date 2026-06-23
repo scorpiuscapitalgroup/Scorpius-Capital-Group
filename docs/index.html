@@ -60,6 +60,47 @@
       background-color: #e6e3dc !important;
       border-right: 1px solid rgba(44, 58, 48, 0.08) !important;
     }
+    
+    @media (prefers-color-scheme: dark) {
+      /* Dark mode rules matching the official website design language */
+      :root {
+        --theme-color: #c4a866;
+      }
+      body {
+        background-color: #141412 !important;
+        color: #f0ede6 !important;
+      }
+      .sidebar {
+        background-color: #1a1a18 !important;
+        border-right: 1px solid rgba(240, 237, 230, 0.08) !important;
+        color: #a6bba9 !important;
+      }
+      .sidebar-nav a {
+        color: #a6bba9 !important;
+      }
+      .sidebar-nav li.active > a {
+        color: #c4a866 !important;
+      }
+      .markdown-section {
+        background-color: #141412 !important;
+        color: #f0ede6 !important;
+      }
+      .markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4 {
+        color: #a6bba9 !important;
+      }
+      .markdown-section a {
+        color: #c4a866 !important;
+      }
+      .search input {
+        background-color: #1a1a18 !important;
+        border: 1px solid rgba(240, 237, 230, 0.1) !important;
+        color: #a6bba9 !important;
+      }
+      .sidebar-toggle {
+        background-color: #1a1a18 !important;
+        border-right: 1px solid rgba(240, 237, 230, 0.08) !important;
+      }
+    }
   </style>
 </head>
 <body>

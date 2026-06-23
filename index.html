@@ -39,9 +39,43 @@
             --ink: #211f1a;
             --gold: #9a7d3f;
             --gold-light: #c4a866;
-            --gold-text: #6f5826;   /* Darker gold to satisfy WCAG AA */
-            --deep: #2c3a30;        /* Dark Green */
+            --gold-text: #6f5826;
+            --deep: #2c3a30;
             --deep-light: #3e5343;
+            
+            /* Canvas & vignette specific variables */
+            --chart-grid: rgba(44, 58, 48, 0.06);
+            --chart-grid-text: rgba(111, 88, 38, 0.85);
+            --chart-badge-bg: #2c3a30;
+            --chart-badge-text: #f5f3ee;
+            --chart-crosshair: rgba(33, 31, 26, 0.15);
+            --chart-price-line: rgba(154, 125, 63, 0.45);
+            --vignette-top: rgba(245, 243, 238, 0.6);
+            --dropdown-bg: rgba(255, 255, 255, 0.94);
+            --dropdown-hover: rgba(154, 125, 63, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #141412;        /* Sleek warm dark charcoal */
+                --ink: #f0ede6;       /* Warm cream off-white */
+                --gold: #c4a866;      /* Lighter gold for dark background */
+                --gold-light: #e5c158;
+                --gold-text: #c4a866;
+                --deep: #a6bba9;      /* Sage green for visibility */
+                --deep-light: #8fa293;
+                
+                /* Canvas & vignette specific variables */
+                --chart-grid: rgba(240, 237, 230, 0.06);
+                --chart-grid-text: rgba(196, 168, 102, 0.85);
+                --chart-badge-bg: #2c3a30;
+                --chart-badge-text: #f0ede6;
+                --chart-crosshair: rgba(240, 237, 230, 0.15);
+                --chart-price-line: rgba(196, 168, 102, 0.45);
+                --vignette-top: rgba(20, 20, 18, 0.6);
+                --dropdown-bg: rgba(26, 26, 24, 0.94);
+                --dropdown-hover: rgba(196, 168, 102, 0.15);
+            }
         }
 
         * { box-sizing: border-box; }
@@ -100,7 +134,7 @@
 
         .vignette {
             pointer-events: none;
-            background: linear-gradient(to bottom, rgba(245,243,238,0.6) 0%, transparent 50%, rgba(245,243,238,0.6) 100%);
+            background: linear-gradient(to bottom, var(--vignette-top) 0%, transparent 50%, var(--vignette-top) 100%);
         }
 
         /* ===== Hero Breathing Glow (Following Mouse) ===== */
@@ -347,7 +381,7 @@
             position: absolute;
             top: calc(100% + 6px);
             right: 0;
-            background: rgba(255, 255, 255, 0.94);
+            background: var(--dropdown-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: none;
@@ -416,7 +450,7 @@
             justify-content: space-between;
         }
         .dropdown-option:hover {
-            background: rgba(154, 125, 63, 0.1);
+            background: var(--dropdown-hover);
             color: var(--gold-text);
         }
         .dropdown-option.active {
@@ -1092,6 +1126,17 @@ function draw() {
     ctx.clearRect(0, 0, width, height);
     if (chartCandles.length === 0) return;
     
+    // Dynamically read theme colors from CSS variables
+    const style = getComputedStyle(document.body);
+    const gridColor = style.getPropertyValue('--chart-grid').trim() || 'rgba(44, 58, 48, 0.06)';
+    const gridTextColor = style.getPropertyValue('--chart-grid-text').trim() || 'rgba(111, 88, 38, 0.85)';
+    const badgeBgColor = style.getPropertyValue('--chart-badge-bg').trim() || '#2c3a30';
+    const badgeTextColor = style.getPropertyValue('--chart-badge-text').trim() || '#f5f3ee';
+    const crosshairColor = style.getPropertyValue('--chart-crosshair').trim() || 'rgba(33, 31, 26, 0.15)';
+    const priceLineColor = style.getPropertyValue('--chart-price-line').trim() || 'rgba(154, 125, 63, 0.45)';
+    const goldColor = style.getPropertyValue('--gold').trim() || '#9a7d3f';
+    const timelineTextColor = style.getPropertyValue('--deep-light').trim() || 'rgba(44, 58, 48, 0.5)';
+    
     const chartW = Math.max(100, width - margin.left - margin.right);
     const chartH = Math.max(60, height - margin.top - margin.bottom);
     const baseY = margin.top + chartH;
@@ -1123,7 +1168,7 @@ function draw() {
     for (let i = 0; i <= gridSteps; i++) {
         const y = Math.floor(margin.top + i * (chartH / gridSteps)) + 0.5;
         
-        ctx.strokeStyle = 'rgba(44, 58, 48, 0.06)';
+        ctx.strokeStyle = gridColor;
         ctx.lineWidth = 1;
         ctx.setLineDash([2, 4]);
         ctx.beginPath();
@@ -1133,7 +1178,7 @@ function draw() {
         ctx.setLineDash([]);
         
         const val = yMax - i * (yMax - yMin) / gridSteps;
-        ctx.fillStyle = 'rgba(111, 88, 38, 0.85)';
+        ctx.fillStyle = gridTextColor;
         ctx.fillText('$' + val.toFixed(2), width - margin.right + 45, y);
     }
     
@@ -1141,8 +1186,8 @@ function draw() {
     const labelStep = Math.max(1, Math.ceil(visibleCandles.length / (width < 768 ? 4 : 8)));
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
-    ctx.fillStyle = 'rgba(44, 58, 48, 0.5)';
-    ctx.strokeStyle = 'rgba(44, 58, 48, 0.03)';
+    ctx.fillStyle = timelineTextColor;
+    ctx.strokeStyle = gridColor;
     
     visibleCandles.forEach((c, i) => {
         const k = i + rightOffset;
@@ -1218,7 +1263,7 @@ function draw() {
     });
     
     if (emaPoints.length > 1) {
-        ctx.strokeStyle = '#9a7d3f'; 
+        ctx.strokeStyle = goldColor; 
         ctx.lineWidth = 1.2;
         ctx.beginPath();
         ctx.moveTo(emaPoints[0].x, emaPoints[0].y);
@@ -1231,7 +1276,7 @@ function draw() {
     // 5. Draw current price dashed line and label badge
     const yLive = margin.top + chartH - (currentPrice - yMin) / (yMax - yMin) * chartH;
     
-    ctx.strokeStyle = 'rgba(154, 125, 63, 0.45)';
+    ctx.strokeStyle = priceLineColor;
     ctx.setLineDash([4, 4]);
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -1240,15 +1285,15 @@ function draw() {
     ctx.stroke();
     ctx.setLineDash([]);
     
-    ctx.fillStyle = '#2c3a30';
+    ctx.fillStyle = badgeBgColor;
     const badgeW = 60;
     const badgeH = 18;
     ctx.fillRect(width - margin.right + 2, yLive - badgeH / 2, badgeW, badgeH);
-    ctx.strokeStyle = '#9a7d3f';
+    ctx.strokeStyle = goldColor;
     ctx.lineWidth = 1;
     ctx.strokeRect(width - margin.right + 2, yLive - badgeH / 2, badgeW, badgeH);
     
-    ctx.fillStyle = '#f5f3ee';
+    ctx.fillStyle = badgeTextColor;
     ctx.font = '10px "Roboto", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -1286,7 +1331,7 @@ function draw() {
     if (isHoveringActive) {
         const hoverX = margin.left + (hoverIndex + rightOffset) * candleSpace + candleW / 2;
         
-        ctx.strokeStyle = 'rgba(33, 31, 26, 0.15)';
+        ctx.strokeStyle = crosshairColor;
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
         
@@ -1302,9 +1347,9 @@ function draw() {
         ctx.setLineDash([]);
         
         const hoverPrice = yMax - (mouseY - margin.top) / chartH * (yMax - yMin);
-        ctx.fillStyle = '#211f1a';
+        ctx.fillStyle = badgeBgColor;
         ctx.fillRect(width - margin.right + 2, mouseY - 9, badgeW, 18);
-        ctx.fillStyle = '#f5f3ee';
+        ctx.fillStyle = badgeTextColor;
         ctx.font = '10px "Roboto", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -1315,9 +1360,9 @@ function draw() {
         ctx.font = '10px "Roboto", sans-serif';
         const timeBadgeW = ctx.measureText(timeStr).width + 12;
         const timeBadgeH = 18;
-        ctx.fillStyle = '#211f1a';
+        ctx.fillStyle = badgeBgColor;
         ctx.fillRect(hoverX - timeBadgeW / 2, baseY + 2, timeBadgeW, timeBadgeH);
-        ctx.fillStyle = '#f5f3ee';
+        ctx.fillStyle = badgeTextColor;
         ctx.fillText(timeStr, hoverX, baseY + 2 + timeBadgeH / 2);
     }
 }

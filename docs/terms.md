@@ -2,11 +2,11 @@
 
 This website is owned and operated by Scorpius Capital Group LLC (the "Company"). By accessing this website, you agree to the terms set forth herein.
 
-### 1. Proprietary Nature
-The Company is a single-shareholder proprietary trading firm. We do not provide external services, manage public accounts, or solicit capital from third parties. Nothing on this website constitutes an offer to sell, a solicitation of an offer to buy, or a recommendation of any security or financial instrument.
+### 1. Institutional Proprietary Status
+The Company operates strictly as a private proprietary trading firm. All investment and trading operations are executed using the Company's own balance sheet and proprietary capital. Nothing contained on this website constitutes an offer to sell, a solicitation of an offer to buy, or a recommendation of any security, commodity, or financial instrument.
 
 ### 2. No External Services
-The Company does not offer investment advisory, brokerage, or any other financial services to the public. We will never solicit or accept external client funds.
+The Company is not a retail brokerage, investment adviser, or public financial services provider. We do not offer trading services, portfolio management, or financial advice to external entities, individuals, or the public. We will never solicit or accept external client capital.
 
 ### 3. Intellectual Property
-All content on this website is the property of the Company and is protected by applicable copyright and trademark laws.
+All content on this website, including text, graphics, logos, and software, is the property of the Company and is protected by international copyright and trademark laws.
