@@ -62,29 +62,29 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #090a0f;        /* Deep Velvet Navy-Charcoal */
-                --ink: #ffffff;       /* Crisp Platinum White */
-                --ink-muted: rgba(255, 255, 255, 0.45);
-                --gold: #e5b858;      /* Shining Liquid Gold */
-                --gold-light: #fbe69b;
-                --gold-text: #e5b858;
-                --deep: #e6e9ec;      /* High contrast menu links */
-                --deep-light: #a2a8b0; /* Readable slate gray */
-                --deep-muted: rgba(230, 233, 236, 0.45);
+                --bg: #0c0f0d;        /* Deep Obsidian Green-Black */
+                --ink: #f4f1e9;       /* Warm Platinum (softer than pure white) */
+                --ink-muted: rgba(244, 241, 233, 0.48);
+                --gold: #cba45c;      /* Refined Champagne Gold */
+                --gold-light: #ecd49a;
+                --gold-text: #d8b878;
+                --deep: #e4e7e3;      /* Soft platinum menu links */
+                --deep-light: #9aa39c; /* Muted sage gray */
+                --deep-muted: rgba(228, 231, 227, 0.42);
                 
                 /* Canvas & vignette specific variables */
-                --chart-grid: rgba(230, 233, 236, 0.08);
-                --chart-grid-text: rgba(229, 184, 88, 0.85);
-                --chart-badge-bg: #151e18; 
-                --chart-badge-text: #ffffff;
-                --chart-crosshair: rgba(230, 233, 236, 0.15);
-                --chart-price-line: rgba(229, 184, 88, 0.45);
-                --vignette-top: rgba(9, 10, 15, 0.7);
-                --dropdown-bg: rgba(15, 17, 24, 0.96);
-                --dropdown-hover: rgba(229, 184, 88, 0.15);
-                --header-bg: rgba(9, 10, 15, 0.9);
-                --header-bg-fade: rgba(9, 10, 15, 0);
-                --glow-outer: rgba(9, 10, 15, 0);
+                --chart-grid: rgba(228, 231, 227, 0.06);
+                --chart-grid-text: rgba(216, 184, 120, 0.8);
+                --chart-badge-bg: #16201a; 
+                --chart-badge-text: #f4f1e9;
+                --chart-crosshair: rgba(228, 231, 227, 0.14);
+                --chart-price-line: rgba(216, 184, 120, 0.5);
+                --vignette-top: rgba(12, 15, 13, 0.78);
+                --dropdown-bg: rgba(14, 18, 15, 0.96);
+                --dropdown-hover: rgba(216, 184, 120, 0.14);
+                --header-bg: rgba(12, 15, 13, 0.92);
+                --header-bg-fade: rgba(12, 15, 13, 0);
+                --glow-outer: rgba(12, 15, 13, 0);
             }
         }
 
@@ -114,7 +114,7 @@
         }
 
         /* ===== Layout Skeleton ===== */
-        .stage { position: relative; width: 100%; height: 100vh; }
+        .stage { position: relative; width: 100%; height: 100vh; height: 100dvh; }
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .z0  { z-index: 0; }
         .z5  { z-index: 5; }
@@ -524,14 +524,24 @@
             }
         }
         @media (max-width: 580px) {
-            header { padding: 20px 15px 20px 12px; }
-            .hero-center {
-                top: 64px;
-                left: 12px;
+            header { padding: 18px 14px; }
+            .brand {
+                font-size: 15px;
+                letter-spacing: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 0;
             }
+            .docs-link { flex-shrink: 0; }
+            .hero-center {
+                top: 60px;
+                left: 14px;
+                max-width: calc(100vw - 28px);
+            }
+            .ticker-header { flex-wrap: wrap; gap: 6px 8px; }
             .chart-controls {
-                top: 110px;
-                left: 12px;
+                top: 116px;
+                left: 14px;
                 right: auto;
             }
             .dropdown-menu-panel {
@@ -1083,7 +1093,7 @@ function resize() {
     margin = {
         left: mobile ? 12 : 48,
         right: mobile ? 60 : 80,
-        top: smallMobile ? 140 : (mobile ? 120 : 160),
+        top: smallMobile ? 168 : (mobile ? 128 : 160),
         bottom: mobile ? 70 : 80
     };
     canvas.width = Math.floor(width * dpr);
