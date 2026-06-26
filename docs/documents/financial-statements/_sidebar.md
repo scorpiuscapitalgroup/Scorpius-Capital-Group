@@ -1,2 +1,0 @@
-- [Financial Statements](/documents/financial-statements/)
-  - [FY2026 Financial Statements](/documents/financial-statements/FS2026.md)

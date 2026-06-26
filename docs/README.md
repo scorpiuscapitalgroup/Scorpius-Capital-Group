@@ -1,1 +1,0 @@
-# Scorpius Capital Group LLC
